@@ -12,13 +12,30 @@ class Atom {
         10: "Ne",
         11: "Na",
         12: "Mg",
-        13: "Al"
+        13: "Al",
+        14: "Si",
+        15: "P",
+        16: "S",
+        17: "Cl",
+        18: "Ar",
+        19: "K",
+        20: "Ca",
+        21: "Sc",
+        22: "Ti",
+        23: "V",
+        24: "Cr",
+        25: "Mn",
+        26: "Fe",
+        27: "Co",
+        28: "Ni",
+        29: "Cu",
+        30: "Zn", 
     };
 
-    static atomAlpha = 200;
+    static atomAlpha = 255;
 
     static numberColorBinds = {
-        1: [0, 0, 255, Atom.atomAlpha],
+        1: [106, 181, 255, Atom.atomAlpha],
         2: [239, 228, 176, Atom.atomAlpha],
         3: [128, 128, 192, Atom.atomAlpha],
         4: [240, 240, 240, Atom.atomAlpha],
@@ -30,9 +47,24 @@ class Atom {
         10: [255, 0, 128, Atom.atomAlpha],
         11: [255, 128, 64, Atom.atomAlpha],
         12: [128, 128, 255, Atom.atomAlpha],
-        13: [128, 128, 128, this.atomAlpha],
-        14: [],
-        15: [],
+        13: [128, 128, 128, Atom.atomAlpha],
+        14: [0, 0, 160, Atom.atomAlpha],
+        15: [254, 58, 1, Atom.atomAlpha],
+        16: [0, 111, 164, Atom.atomAlpha],
+        17: [152, 3, 252, Atom.atomAlpha],
+        18: [176, 53, 202, Atom.atomAlpha],
+        19: [0, 128, 0, Atom.atomAlpha],
+        20: [255, 255, 255, Atom.atomAlpha],
+        21: [1, 126, 104, Atom.atomAlpha],
+        22: [],
+        23: [],
+        24: [],
+        25: [],
+        26: [],
+        27: [],
+        28: [],
+        29: [],
+        30: [],
     };
 
     static atomRad = 100;
