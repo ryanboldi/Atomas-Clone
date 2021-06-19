@@ -5,6 +5,14 @@ function setup(){
     background(150, 150, 150);
     stroke(0);
 
+    let c = new AtomChain();
+    c.addAtom(new Atom(1), 3);
+    console.log(c);
+    c.addAtom(new Atom(2), 3);
+    console.log(c);
+    c.addAtom(new Atom(3), 0);
+    console.log(c);
+
     let SHOW_GRIDLINES = false;
     if (SHOW_GRIDLINES){
         line(400, 0, 400, 800);
