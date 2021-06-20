@@ -45,17 +45,23 @@ class Game{
 
     //checks board and performs any updates
     checkBoard(){
+        //NOTE: When a combination happens, i add the new items index as a plus to continue the pattern (TODO: catch this and change the score of the atoms);
         //check that there is a plus in this board
         let pluses = this.board.contains("p");
-        if (pluses.length !== 0){
+        while (pluses.length !== 0){
+            console.log(pluses);
+            console.table(this.board.atoms);
             //check for two atoms on either side of all pluses
-            for (let i = 0; i < pluses.length; i++){
-                if (this.board.atomAt(pluses[i]-1) == this.board.atomAt(pluses[i]+1)){
-                    if (!(this.board.atomAt(pluses[i]-1) instanceof String)){
-                        console.log("ADD");
-                    }
-                }
-            }
+            if (this.board.checkEitherSide(pluses[pluses.length - 1])){
+                console.log("VALID ON EITHER SIDE");
+                let addNum = this.board.atomAt(pluses[pluses.length -1]-1);
+                //remove the three, add the merged one
+                this.board.atoms.splice(pluses[pluses.length - 1] - 1, 3, new Atom(addNum+1));
+                pluses.splice(0, 0, pluses[pluses.length - 1] - 1); // add new atom created as a fake plus
+            } 
+            
+            pluses.splice(pluses.length -1, 1);
+            //delete the plus already parsed
         }
     }
 }

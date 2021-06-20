@@ -61,6 +61,30 @@ class AtomChain{
         }
     };
 
+    indexCleaner(ind){
+        if (ind >= 0 && ind < this.atoms.length){
+            return ind;
+        } else if (ind < 0){
+            return this.indexCleaner(ind + this.atoms.length);
+        } else if (ind >= this.atoms.length){
+            return this.indexCleaner(ind - this.atoms.length);
+        } 
+    }
+
+    removeAt(ind){
+        this.atoms.splice(ind, 1);
+    }
+
+    //returns if there is the same atom on either side of this index
+    checkEitherSide(ind){
+        if (this.atomAt(ind-1) == this.atomAt(ind+1)){
+            if (!(this.atomAt(ind-1) instanceof String) && !(this.indexCleaner(ind-1) == this.indexCleaner(ind+1))){
+                return true;
+            }
+        }
+        return false;
+    }
+
     //returns all occurances of the atom with id ID. else returns -1
     contains(ID){
         let occurances = [];

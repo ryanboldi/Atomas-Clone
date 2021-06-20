@@ -46,10 +46,12 @@ function draw(){
 }
 
 function keyPressed(){
-   
+   currentGame.next = new Atom("p");
 }
 
 function mousePressed(){
+    console.table(currentGame.board.atoms);
     currentGame.place();
     currentGame.checkBoard();
+    console.table(currentGame.board.atoms);
 }
