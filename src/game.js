@@ -48,11 +48,14 @@ class Game{
         //check that there is a plus in this board
         let pluses = this.board.contains("p");
         if (pluses.length !== 0){
-            //check for two atoms on either side of a plus
-            
+            //check for two atoms on either side of all pluses
+            for (let i = 0; i < pluses.length; i++){
+                if (this.board.atomAt(pluses[i]-1) == this.board.atomAt(pluses[i]+1)){
+                    if (!(this.board.atomAt(pluses[i]-1) instanceof String)){
+                        console.log("ADD");
+                    }
+                }
+            }
         }
-        
-
-
     }
 }

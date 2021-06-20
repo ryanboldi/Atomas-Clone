@@ -51,4 +51,5 @@ function keyPressed(){
 
 function mousePressed(){
     currentGame.place();
+    currentGame.checkBoard();
 }
