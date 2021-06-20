@@ -40,10 +40,15 @@ function setup(){
 }
 
 function draw(){
-   currentGame.display();
-   currentGame.getIndexFromMousePosition();
+    currentGame.display();
+    
+   //currentGame.getIndexFromMousePosition();
 }
 
 function keyPressed(){
    
+}
+
+function mousePressed(){
+    currentGame.place();
 }

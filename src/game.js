@@ -10,6 +10,11 @@ class Game{
 
     display(){
         background(230, 203, 193);
+        // push();
+        // stroke(120, 120, 120);
+        // strokeWeight(3);
+        // line(400, 400, mouseX, mouseY);
+        // pop();
         this.board.display();
         this.next.drawAt(400,400);
     }
@@ -23,16 +28,31 @@ class Game{
         if (vecFromCenter.y < 0){
             angle = TWO_PI - angle;
         }
-        console.log(angle);
-        //console.log(vecFromCenter.cross(createVector(1, 0)));
-        line(400, 400, 400 + vecFromCenter.x, 400 + vecFromCenter.y);
+        return (floor(angle/TWO_PI * this.board.atoms.length));
     }
 
+    place(){
+        this.placeAt(this.getIndexFromMousePosition());
+        this.next = new Atom(floor(random(1,5)));
+    }
     /**
      * places the next atom at a certain position on the board
      * @param {Number} pos Position to place the next atom at
      */
     placeAt(pos){
         this.board.addAtom(this.next, pos);
+    }
+
+    //checks board and performs any updates
+    checkBoard(){
+        //check that there is a plus in this board
+        let pluses = this.board.contains("p");
+        if (pluses.length !== 0){
+            //check for two atoms on either side of a plus
+            
+        }
+        
+
+
     }
 }
