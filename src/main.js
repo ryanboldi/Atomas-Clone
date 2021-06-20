@@ -1,19 +1,14 @@
 let a;
+let c;
+
+let t = 0;
 
 function setup(){
     createCanvas(800, 800);
-    background(150, 150, 150);
     stroke(0);
 
-    let c = new AtomChain();
-    c.addAtom(new Atom(1), 0);
-    c.addAtom(new Atom(2), 0);
-    c.addAtom(new Atom(3), 0);
-    c.addAtom(new Atom(4), 0);
-    c.addAtom(new Atom(5), 0);
-    c.display();
-
-
+    c = new AtomChain();
+    
     let SHOW_GRIDLINES = false;
     if (SHOW_GRIDLINES){
         line(400, 0, 400, 800);
@@ -44,8 +39,17 @@ function setup(){
             a.drawAt(i, 500);
         }
     }
+    //c.fillWithRandom(18);
 }
 
 function draw(){
+    background(230, 203, 193);
+    c.display();
+   
+}
 
+function keyPressed(){
+    c.addAtom(new Atom("m"), 0);
+    c.addAtom(new Atom("p"), 0);
+    c.addAtom(new Atom(3), 0);
 }

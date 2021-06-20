@@ -1,5 +1,7 @@
 class Atom {
     static numberNameBinds = {
+        'm': "-",
+        'p': "+",
         1: "H",
         2: "He",
         3: "Li",
@@ -35,6 +37,8 @@ class Atom {
     static atomAlpha = 255;
 
     static numberColorBinds = {
+        "m": [0, 0, 255, Atom.atomAlpha],
+        "p": [255, 0, 0, Atom.atomAlpha],
         1: [106, 181, 255, Atom.atomAlpha],
         2: [239, 228, 176, Atom.atomAlpha],
         3: [128, 128, 192, Atom.atomAlpha],
@@ -67,7 +71,7 @@ class Atom {
         30: [211, 211, 211, Atom.atomAlpha],
     };
 
-    static atomRad = 100;
+    static atomRad = 85;
 
     constructor(num) {
         this.number = num;
