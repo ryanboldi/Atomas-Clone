@@ -10,10 +10,13 @@ class AtomChain{
      * @param {Atom} atom Atom to be added to the chain
      * @param {Number} pos Position for the atom to be added 
      */
-    addAtom(atom, pos){
+    addAtom(atom, pos = 0){
         this.atoms.splice(pos, 0, atom);
     }
 
+    /**
+     * Draws the atom chain to the screen
+     */
     display(){
         let len = this.atoms.length;
         let sep = TWO_PI/len;
@@ -37,17 +40,13 @@ class AtomChain{
         pop();
     }
 
+    /**
+     * Fills the chain with a sequence of atoms (for testing only)
+     * @param {Number} num number of atoms to add randomly to the chain
+     */
     fillWithRandom(num){
         for (let i = 1; i < num+1; i++){
             this.addAtom(new Atom(i), 0);
         }
-    }
-
-    getNextAtom(pos){
-
-    }
-
-    getPreviousAtom(pos){
-
     }
 }

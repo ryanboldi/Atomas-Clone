@@ -1,14 +1,11 @@
-let a;
-let c;
-
-let t = 0;
+let currentGame;
 
 function setup(){
     createCanvas(800, 800);
     stroke(0);
 
-    c = new AtomChain();
-    
+    currentGame = new Game();
+
     let SHOW_GRIDLINES = false;
     if (SHOW_GRIDLINES){
         line(400, 0, 400, 800);
@@ -43,13 +40,10 @@ function setup(){
 }
 
 function draw(){
-    background(230, 203, 193);
-    c.display();
-   
+   currentGame.display();
+   currentGame.getIndexFromMousePosition();
 }
 
 function keyPressed(){
-    c.addAtom(new Atom("m"), 0);
-    c.addAtom(new Atom("p"), 0);
-    c.addAtom(new Atom(3), 0);
+   
 }
