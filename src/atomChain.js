@@ -1,4 +1,6 @@
 class AtomChain{
+    static displayRad = 250;
+
     constructor(){
         this.atoms = [];
     };
@@ -15,19 +17,30 @@ class AtomChain{
     display(){
         let len = this.atoms.length;
         let sep = TWO_PI/len;
-        console.log(len);
+
+        push();
+        fill(190, 190, 190, 100);
+        stroke(160, 160, 160);
+        strokeWeight(1);
+        ellipse(400, 400, AtomChain.displayRad*2 + Atom.atomRad + 10,AtomChain.displayRad*2 + Atom.atomRad + 10);
+        pop();
 
         push();
         angleMode(RADIANS);
-        let position = createVector(200,0);
+        let position = createVector(AtomChain.displayRad, 0);
         translate(400, 400);
         fill(255, 255, 0, 40);
-        //ellipse(200, 0, 50, 50);
         for (let i = 0; i < len; i++){
             position.rotate(sep);
             this.atoms[i].drawAt(position.x, position.y);
         }
         pop();
+    }
+
+    fillWithRandom(num){
+        for (let i = 1; i < num+1; i++){
+            this.addAtom(new Atom(i), 0);
+        }
     }
 
     getNextAtom(pos){
