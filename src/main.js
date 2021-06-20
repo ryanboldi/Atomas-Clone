@@ -6,12 +6,13 @@ function setup(){
     stroke(0);
 
     let c = new AtomChain();
-    c.addAtom(new Atom(1), 3);
-    console.log(c);
-    c.addAtom(new Atom(2), 3);
-    console.log(c);
+    c.addAtom(new Atom(1), 0);
+    c.addAtom(new Atom(2), 0);
     c.addAtom(new Atom(3), 0);
-    console.log(c);
+    c.addAtom(new Atom(4), 0);
+    c.addAtom(new Atom(5), 0);
+    c.display();
+
 
     let SHOW_GRIDLINES = false;
     if (SHOW_GRIDLINES){
@@ -37,6 +38,10 @@ function setup(){
         for (let i = 100; i < 800; i += 100){
             a = new Atom(i/100 + 21);
             a.drawAt(i, 400);
+        }
+        for (let i = 100; i < 300; i += 100){
+            a = new Atom(i/100 + 28);
+            a.drawAt(i, 500);
         }
     }
 }
