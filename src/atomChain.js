@@ -49,4 +49,26 @@ class AtomChain{
             this.addAtom(new Atom(i), 0);
         }
     }
+
+    //returns the atom num at a certain position
+    atomAt(ind){
+        if (ind >= 0 && ind < this.atoms.length){
+            return this.atoms[ind].number;
+        } else if (ind < 0){
+            return this.atomAt(ind + this.atoms.length)
+        } else if (ind >= this.atoms.length){
+            return this.atomAt(ind - this.atoms.length)
+        }
+    };
+
+    //returns all occurances of the atom with id ID. else returns -1
+    contains(ID){
+        let occurances = [];
+        for (let i = 0; i < this.atoms.length; i++){
+            if (this.atoms[i].number == ID){
+                occurances.push(i);
+            }
+        }
+        return occurances;
+    }
 }
