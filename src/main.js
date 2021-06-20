@@ -50,8 +50,6 @@ function keyPressed(){
 }
 
 function mousePressed(){
-    console.table(currentGame.board.atoms);
     currentGame.place();
     currentGame.checkBoard();
-    console.table(currentGame.board.atoms);
 }

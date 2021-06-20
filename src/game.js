@@ -1,10 +1,11 @@
 class Game{
     constructor(){
         this.board = new AtomChain();
+        this.board.addAtom(new Atom(3)); 
+        this.board.addAtom(new Atom(3));
+        this.board.addAtom(new Atom(2));
         this.board.addAtom(new Atom(1));
         this.board.addAtom(new Atom(2));
-        this.board.addAtom(new Atom(3)); 
-        this.board.addAtom(new Atom("p"), 2);
         this.next = new Atom(floor(random(1,5)));
     }
 
@@ -49,6 +50,9 @@ class Game{
         //check that there is a plus in this board
         let pluses = this.board.contains("p");
         while (pluses.length !== 0){
+            for (let i = 0; i < pluses.length; i++){
+                pluses[i] = this.board.indexCleaner(pluses[i]);
+            }
             console.log(pluses);
             console.table(this.board.atoms);
             //check for two atoms on either side of all pluses
@@ -56,8 +60,10 @@ class Game{
                 console.log("VALID ON EITHER SIDE");
                 let addNum = this.board.atomAt(pluses[pluses.length -1]-1);
                 //remove the three, add the merged one
-                this.board.atoms.splice(pluses[pluses.length - 1] - 1, 3, new Atom(addNum+1));
-                pluses.splice(0, 0, pluses[pluses.length - 1] - 1); // add new atom created as a fake plus
+                this.board.atoms.splice(this.board.indexCleaner(pluses[pluses.length - 1] - 1), 1);
+                this.board.atoms.splice(this.board.indexCleaner(pluses[pluses.length - 1] - 1), 1);
+                this.board.atoms.splice(this.board.indexCleaner(pluses[pluses.length - 1] - 1), 1, new Atom(addNum+1));
+                pluses.splice(0, 0, this.board.indexCleaner(pluses[pluses.length - 1] - 1)); // add new atom created as a fake plus
             } 
             
             pluses.splice(pluses.length -1, 1);
