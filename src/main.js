@@ -37,19 +37,27 @@ function setup(){
         }
     }
     //c.fillWithRandom(18);
+    currentGame.display();
 }
 
 function draw(){
-    currentGame.display();
+    
     
    //currentGame.getIndexFromMousePosition();
 }
 
 function keyPressed(){
-   currentGame.next = new Atom("p");
+    //console.log(key);
+    if(key === "P"){
+        currentGame.next = new Atom("p");
+    } else {
+        currentGame.next = new Atom(int(key));
+    }
+    currentGame.display();
 }
 
 function mousePressed(){
     currentGame.place();
     currentGame.checkBoard();
+    currentGame.display();
 }

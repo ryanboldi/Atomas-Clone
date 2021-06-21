@@ -1,11 +1,11 @@
 class Game{
     constructor(){
         this.board = new AtomChain();
-        this.board.addAtom(new Atom(3)); 
-        this.board.addAtom(new Atom(3));
-        this.board.addAtom(new Atom(2));
-        this.board.addAtom(new Atom(1));
-        this.board.addAtom(new Atom(2));
+        // this.board.addAtom(new Atom(3)); 
+        // this.board.addAtom(new Atom(3));
+        // this.board.addAtom(new Atom(2));
+        // this.board.addAtom(new Atom(1));
+        // this.board.addAtom(new Atom(2));
         this.next = new Atom(floor(random(1,5)));
     }
 
@@ -55,18 +55,40 @@ class Game{
             }
             console.log(pluses);
             console.table(this.board.atoms);
+            
             //check for two atoms on either side of all pluses
             if (this.board.checkEitherSide(pluses[pluses.length - 1])){
                 console.log("VALID ON EITHER SIDE");
                 let addNum = this.board.atomAt(pluses[pluses.length -1]-1);
+                console.log(`addNum ${addNum}`);
+                console.table(this.board.atoms);
                 //remove the three, add the merged one
-                this.board.atoms.splice(this.board.indexCleaner(pluses[pluses.length - 1] - 1), 1);
-                this.board.atoms.splice(this.board.indexCleaner(pluses[pluses.length - 1] - 1), 1);
-                this.board.atoms.splice(this.board.indexCleaner(pluses[pluses.length - 1] - 1), 1, new Atom(addNum+1));
-                pluses.splice(0, 0, this.board.indexCleaner(pluses[pluses.length - 1] - 1)); // add new atom created as a fake plus
+
+                //add the three indexes that need to be removed to an array
+                let toRemove = [this.board.indexCleaner(pluses[pluses.length - 1] + 1),
+                            this.board.indexCleaner(pluses[pluses.length - 1]),
+                            this.board.indexCleaner(pluses[pluses.length - 1] - 1)];
+
+                //sort this array in decending order so the biggest index is first
+                let sortedToRemove = reverse(sort(toRemove));
+                console.log(sortedToRemove);
+                
+                //remove the elements in this order to not destroy anything
+                for (let i = 0; i < sortedToRemove.length - 1; i++){
+                    this.board.removeAt(sortedToRemove[i]);
+                    console.table(this.board.atoms);
+                }
+                
+                //add the next element at the location of the last removal.
+                this.board.atoms.splice(sortedToRemove[2], 1, new Atom(addNum+1));
+
+                pluses.splice(0, 0, sortedToRemove[2]); // add new atom created as a fake plus
+
+                //show the board intermediate
+                this.display();
             } 
             
-            pluses.splice(pluses.length -1, 1);
+            pluses.pop();
             //delete the plus already parsed
         }
     }

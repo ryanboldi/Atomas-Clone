@@ -72,7 +72,7 @@ class AtomChain{
     }
 
     removeAt(ind){
-        this.atoms.splice(ind, 1);
+        this.atoms.splice(this.indexCleaner(ind), 1);
     }
 
     //returns if there is the same atom on either side of this index

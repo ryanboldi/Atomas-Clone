@@ -80,6 +80,7 @@ class Atom {
     }
 
     drawAt(x, y){
+        //console.log(`drawing ${this.name}${this.number} at (${x},${y})`);
         //draws the actual atom
         push();
         ellipseMode(CENTER);
