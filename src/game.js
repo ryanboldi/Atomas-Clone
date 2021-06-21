@@ -60,8 +60,19 @@ class Game{
             if (this.board.checkEitherSide(pluses[pluses.length - 1])){
                 //console.log("VALID ON EITHER SIDE");
                 let addNum = this.board.atomAt(pluses[pluses.length -1]-1);
-                //console.log(`addNum ${addNum}`);
-                //console.table(this.board.atoms);
+
+                //if the "plus" is not actually a plus, but an element
+                if (this.board.atomAt(pluses[pluses.length - 1]) !== "p"){
+                    let n1 = this.board.atomAt(pluses[pluses.length - 1]);
+                    let n2 = addNum;
+
+                    if (n2 > n1){
+                        addNum = n2 + 1;
+                    } else {
+                        addNum = n1 + 1;
+                    }
+                } 
+                
                 //remove the three, add the merged one
 
                 //add the three indexes that need to be removed to an array
@@ -76,7 +87,7 @@ class Game{
                 for (let i = 0; i < sortedToRemove.length - 1; i++){
                     this.board.removeAt(sortedToRemove[i]);
                 }
-                
+
                 //add the next element at the location of the last removal.
                 this.board.atoms.splice(sortedToRemove[2], 1, new Atom(addNum+1));
 
