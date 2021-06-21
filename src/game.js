@@ -2,7 +2,7 @@ class Game{
     static constants = {
         plusProb : 0.3,
         minusProb : 0,
-        generatorSd: 0.5,
+        generatorSd: 0.1,
     }
 
     constructor(){
@@ -93,7 +93,7 @@ class Game{
             
             //check for two atoms on either side of all pluses
             if (this.board.checkEitherSide(pluses[pluses.length - 1])){
-                console.log("VALID ON EITHER SIDE");
+                //console.log("VALID ON EITHER SIDE");
                 let addNum = this.board.atomAt(pluses[pluses.length -1]-1);
 
                 //if the "plus" is not actually a plus, but an element
@@ -124,7 +124,7 @@ class Game{
                 }
 
                 //add the next element at the location of the last removal.
-                console.log(addNum);
+                //console.log(addNum);
                 this.board.atoms.splice(sortedToRemove[2], 1, new Atom(addNum+1));
 
                 pluses.splice(0, 0, sortedToRemove[2]); // add new atom created as a fake plus
