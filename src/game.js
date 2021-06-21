@@ -36,37 +36,54 @@ class Game{
         return (floor(angle/TWO_PI * this.board.atoms.length));
     }
 
+    getIndexFromMousePositionAtom(){
+        let vecFromCenter = createVector(mouseX - 400, mouseY - 400);
+        let angle = acos(createVector(1, 0).dot(vecFromCenter)/vecFromCenter.mag());
+        
+        if (vecFromCenter.y < 0){
+            angle = TWO_PI - angle;
+        }
+        angle += 0.5*(TWO_PI/this.board.atoms.length)
+        return (this.board.indexCleaner(floor(angle/TWO_PI * this.board.atoms.length) -1)); 
+    }
+
     place(){
-        this.placeAt(this.getIndexFromMousePosition());
+        if(this.next.number !== "m"){
+            this.placeAt(this.getIndexFromMousePosition());
 
-        let rand = random();
-        if(rand < Game.constants.plusProb){
-            this.next = new Atom("p");
-        } else if (rand < (Game.constants.plusProb + Game.constants.minusProb)){
-            this.next = new Atom("m");
-        } //others
-        else {
-            //random element
-            //get the highest element on the board's value,
-            let highest = this.board.getHighest();
+            let rand = random();
+            if(rand < Game.constants.plusProb){
+                this.next = new Atom("p");
+            } else if (rand < (Game.constants.plusProb + Game.constants.minusProb)){
+                this.next = new Atom("m");
+            } //others
+            else {
+                //random element
+                //get the highest element on the board's value,
+                let highest = this.board.getHighest();
 
-            //get the lowest element on the board's value,
-            let lowest = this.board.getLowest();
+                //get the lowest element on the board's value,
+                let lowest = this.board.getLowest();
 
-            //find the mid point
-            let av = lowest + ceil((highest - lowest) /2);
+                //find the mid point
+                let av = lowest + ceil((highest - lowest) /2);
 
-            //add one to the mid point to bias to larger numbers
-            //maybe the 'ceil'ing is enough to bias upwards and i don't need this
-            //av++;
+                //add one to the mid point to bias to larger numbers
+                //maybe the 'ceil'ing is enough to bias upwards and i don't need this
+                //av++;
 
-            //generate gaussian probability of generating a number
-            let nextAtom = ceil(randomGaussian(av, floor((highest-lowest)/av)));
-            if (nextAtom > 0){
-                this.next = new Atom(nextAtom);
-            } else {
-                this.next = new Atom(1);
+                //generate gaussian probability of generating a number
+                let nextAtom = ceil(randomGaussian(av, floor((highest-lowest)/av)));
+                if (nextAtom > 0){
+                    this.next = new Atom(nextAtom);
+                } else {
+                    this.next = new Atom(1);
+                }
             }
+        } else {
+            let selectedIndex = this.getIndexFromMousePositionAtom();
+            console.log(selectedIndex);
+            this.minusAtom(selectedIndex);
         }
     }
     /**
@@ -75,6 +92,13 @@ class Game{
      */
     placeAt(pos){
         this.board.addAtom(this.next, pos);
+    }
+
+    //use a minus atom on the atom at pos pos
+    minusAtom(pos){
+        this.next = this.board.atoms[pos]; 
+        this.board.atoms.splice(pos, 1);
+        this.display();
     }
 
     //checks board and performs any updates

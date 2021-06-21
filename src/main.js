@@ -50,6 +50,8 @@ function keyPressed(){
     //console.log(key);
     if(key === "P"){
         currentGame.next = new Atom("p");
+    } else if (key === "M") {
+        currentGame.next = new Atom("m");
     } else {
         currentGame.next = new Atom(int(key));
     }
@@ -57,6 +59,7 @@ function keyPressed(){
 }
 
 function mousePressed(){
+    console.table(currentGame.board.atoms);
     currentGame.place();
     currentGame.checkBoard();
     currentGame.display();
