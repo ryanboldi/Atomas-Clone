@@ -7,11 +7,9 @@ class Game{
 
     constructor(){
         this.board = new AtomChain();
-        // this.board.addAtom(new Atom(3)); 
-        // this.board.addAtom(new Atom(3));
-        // this.board.addAtom(new Atom(2));
-        // this.board.addAtom(new Atom(1));
-        // this.board.addAtom(new Atom(2));
+        for (let i = 0; i < floor(random(1,6)); i++){
+            this.board.addAtom(new Atom(floor(random(1,5))));
+        }
         this.next = new Atom(floor(random(1,5)));
     }
 
@@ -63,7 +61,7 @@ class Game{
             //av++;
 
             //generate gaussian probability of generating a number
-            let nextAtom = ceil(randomGaussian(av, Game.constants.generatorSd));
+            let nextAtom = ceil(randomGaussian(av, floor((highest-lowest)/av)));
             if (nextAtom > 0){
                 this.next = new Atom(nextAtom);
             } else {
