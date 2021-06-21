@@ -77,6 +77,12 @@ class Atom {
         this.number = num;
         this.name = Atom.numberNameBinds[this.number];
         this.color = Atom.numberColorBinds[this.number];
+        try {
+            fill(this.color);
+        } catch (error) {
+            console.log(`failed trying to create atom #${num}`);
+        }
+        
     }
 
     drawAt(x, y){

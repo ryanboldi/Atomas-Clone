@@ -78,11 +78,36 @@ class AtomChain{
     //returns if there is the same atom on either side of this index
     checkEitherSide(ind){
         if (this.atomAt(ind-1) == this.atomAt(ind+1)){
-            if (!(this.atomAt(ind-1) instanceof String) && !(this.indexCleaner(ind-1) == this.indexCleaner(ind+1))){
+            if (!(this.atomAt(ind-1) instanceof String || typeof this.atomAt(ind-1) == 'string') && !(this.indexCleaner(ind-1) == this.indexCleaner(ind+1))){
                 return true;
             }
+            return false;
         }
         return false;
+    }
+
+    //much more efficient way to store and remember the hgihest and lowest element but i am lazy
+
+    //returns the highest number element
+    getHighest(){
+        let max = 0;
+        for(let i = 0; i < this.atoms.length; i++){
+            if (this.atoms[i].number > max){
+                max = this.atoms[i].number
+            }
+        }
+        return max;
+    }
+
+    //returns the lowest number element
+    getLowest(){
+        let min = Infinity;
+        for(let i = 0; i < this.atoms.length; i++){
+            if (this.atoms[i].number < min){
+                min = this.atoms[i].number
+            }
+        }
+        return min;
     }
 
     //returns all occurances of the atom with id ID. else returns -1

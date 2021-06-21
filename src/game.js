@@ -1,4 +1,10 @@
 class Game{
+    static constants = {
+        plusProb : 0.3,
+        minusProb : 0,
+        generatorSd: 0.5,
+    }
+
     constructor(){
         this.board = new AtomChain();
         // this.board.addAtom(new Atom(3)); 
@@ -34,7 +40,36 @@ class Game{
 
     place(){
         this.placeAt(this.getIndexFromMousePosition());
-        this.next = new Atom(floor(random(1,5)));
+
+        let rand = random();
+        if(rand < Game.constants.plusProb){
+            this.next = new Atom("p");
+        } else if (rand < (Game.constants.plusProb + Game.constants.minusProb)){
+            this.next = new Atom("m");
+        } //others
+        else {
+            //random element
+            //get the highest element on the board's value,
+            let highest = this.board.getHighest();
+
+            //get the lowest element on the board's value,
+            let lowest = this.board.getLowest();
+
+            //find the mid point
+            let av = lowest + ceil((highest - lowest) /2);
+
+            //add one to the mid point to bias to larger numbers
+            //maybe the 'ceil'ing is enough to bias upwards and i don't need this
+            //av++;
+
+            //generate gaussian probability of generating a number
+            let nextAtom = ceil(randomGaussian(av, Game.constants.generatorSd));
+            if (nextAtom > 0){
+                this.next = new Atom(nextAtom);
+            } else {
+                this.next = new Atom(1);
+            }
+        }
     }
     /**
      * places the next atom at a certain position on the board
@@ -58,7 +93,7 @@ class Game{
             
             //check for two atoms on either side of all pluses
             if (this.board.checkEitherSide(pluses[pluses.length - 1])){
-                //console.log("VALID ON EITHER SIDE");
+                console.log("VALID ON EITHER SIDE");
                 let addNum = this.board.atomAt(pluses[pluses.length -1]-1);
 
                 //if the "plus" is not actually a plus, but an element
@@ -89,6 +124,7 @@ class Game{
                 }
 
                 //add the next element at the location of the last removal.
+                console.log(addNum);
                 this.board.atoms.splice(sortedToRemove[2], 1, new Atom(addNum+1));
 
                 pluses.splice(0, 0, sortedToRemove[2]); // add new atom created as a fake plus
