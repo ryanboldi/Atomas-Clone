@@ -53,15 +53,15 @@ class Game{
             for (let i = 0; i < pluses.length; i++){
                 pluses[i] = this.board.indexCleaner(pluses[i]);
             }
-            console.log(pluses);
-            console.table(this.board.atoms);
+            //console.log(pluses);
+            //console.table(this.board.atoms);
             
             //check for two atoms on either side of all pluses
             if (this.board.checkEitherSide(pluses[pluses.length - 1])){
-                console.log("VALID ON EITHER SIDE");
+                //console.log("VALID ON EITHER SIDE");
                 let addNum = this.board.atomAt(pluses[pluses.length -1]-1);
-                console.log(`addNum ${addNum}`);
-                console.table(this.board.atoms);
+                //console.log(`addNum ${addNum}`);
+                //console.table(this.board.atoms);
                 //remove the three, add the merged one
 
                 //add the three indexes that need to be removed to an array
@@ -71,12 +71,10 @@ class Game{
 
                 //sort this array in decending order so the biggest index is first
                 let sortedToRemove = reverse(sort(toRemove));
-                console.log(sortedToRemove);
                 
                 //remove the elements in this order to not destroy anything
                 for (let i = 0; i < sortedToRemove.length - 1; i++){
                     this.board.removeAt(sortedToRemove[i]);
-                    console.table(this.board.atoms);
                 }
                 
                 //add the next element at the location of the last removal.
