@@ -2,15 +2,13 @@ class Game{
     static constants = {
         plusProb : 0.3,
         minusProb : 0.1,
-        darkPlusProb: 0.02,
-        whiteMinusProb: 0.02,
+        darkPlusProb: 0.2,
+        whiteMinusProb: 0.2,
         generatorSd: 0.1,
     }
 
     constructor(){
         this.board = new AtomChain();
-        this.board.addAtom(new Atom("merge"));
-        this.board.addAtom(new Atom("copy"));
         for (let i = 0; i < floor(random(1,6)); i++){
             this.board.addAtom(new Atom(floor(random(1,5))));
         }
@@ -53,7 +51,7 @@ class Game{
     }
 
     place(){
-        if(this.next.number !== "m"){
+        if(this.next.number !== "m" && this.next.number !== "copy"){
             if (this.currentAtomWasMinus){
                 //check if the user clicked in the center-ish area,
                 if(Math.abs(mouseX - 400) < Atom.atomRad){
@@ -71,7 +69,11 @@ class Game{
                     this.next = new Atom("p");
                 } else if (rand < (Game.constants.plusProb + Game.constants.minusProb)){
                     this.next = new Atom("m");
-                } //others
+                } else if (rand < (Game.constants.darkPlusProb + Game.constants.minusProb + Game.constants.plusProb)){
+                    this.next = new Atom("merge");
+                } else if (rand < (Game.constants.whiteMinusProb + Game.constants.darkPlusProb + Game.constants.minusProb + Game.constants.plusProb)){
+                    this.next = new Atom("copy");
+                }
                 else {
                     //random element
                     //get the highest element on the board's value,
@@ -98,8 +100,11 @@ class Game{
             }
         } else if (this.next.number == "m") {
             let selectedIndex = this.getIndexFromMousePositionAtom();
-            console.log(selectedIndex);
             this.minusAtom(selectedIndex);
+        } else if (this.next.number == "copy"){
+            console.log("next was copy");
+            let selectedIndex = this.getIndexFromMousePositionAtom();
+            this.copyAtom(selectedIndex);
         }
     }
     /**
@@ -115,6 +120,11 @@ class Game{
         this.next = this.board.atoms[pos]; 
         this.board.atoms.splice(pos, 1);
         this.currentAtomWasMinus = true;
+        this.display();
+    }
+
+    copyAtom(pos){
+        this.next = new Atom(this.board.atomAt(pos));
         this.display();
     }
 
