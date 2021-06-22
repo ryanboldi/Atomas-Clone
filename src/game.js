@@ -2,8 +2,8 @@ class Game{
     static constants = {
         plusProb : 0.3,
         minusProb : 0.1,
-        darkPlusProb: 0.2,
-        whiteMinusProb: 0.2,
+        darkPlusProb: 0.02,
+        whiteMinusProb: 0.02,
         generatorSd: 0.1,
     }
 
@@ -58,46 +58,48 @@ class Game{
                     if(Math.abs(mouseY - 400) < Atom.atomRad){
                         this.next = new Atom("p");
                         this.currentAtomWasMinus = false;
+                        return;
                     }
                 }
                 //then convert the thing to plus
-            } else {
-                this.placeAt(this.getIndexFromMousePosition());
+            } 
 
-                let rand = random();
-                if(rand < Game.constants.plusProb){
-                    this.next = new Atom("p");
-                } else if (rand < (Game.constants.plusProb + Game.constants.minusProb)){
-                    this.next = new Atom("m");
-                } else if (rand < (Game.constants.darkPlusProb + Game.constants.minusProb + Game.constants.plusProb)){
-                    this.next = new Atom("merge");
-                } else if (rand < (Game.constants.whiteMinusProb + Game.constants.darkPlusProb + Game.constants.minusProb + Game.constants.plusProb)){
-                    this.next = new Atom("copy");
-                }
-                else {
-                    //random element
-                    //get the highest element on the board's value,
-                    let highest = this.board.getHighest();
+            this.placeAt(this.getIndexFromMousePosition());
 
-                    //get the lowest element on the board's value,
-                    let lowest = this.board.getLowest();
+            let rand = random();
+            if(rand < Game.constants.plusProb){
+                this.next = new Atom("p");
+            } else if (rand < (Game.constants.plusProb + Game.constants.minusProb)){
+                this.next = new Atom("m");
+            } else if (rand < (Game.constants.darkPlusProb + Game.constants.minusProb + Game.constants.plusProb)){
+                this.next = new Atom("merge");
+            } else if (rand < (Game.constants.whiteMinusProb + Game.constants.darkPlusProb + Game.constants.minusProb + Game.constants.plusProb)){
+                this.next = new Atom("copy");
+            }
+            else {
+                //random element
+                //get the highest element on the board's value,
+                let highest = this.board.getHighest();
 
-                    //find the mid point
-                    let av = lowest + ceil((highest - lowest) /2);
+                //get the lowest element on the board's value,
+                let lowest = this.board.getLowest();
 
-                    //add one to the mid point to bias to larger numbers
-                    //maybe the 'ceil'ing is enough to bias upwards and i don't need this
-                    //av++;
+                //find the mid point
+                let av = lowest + ceil((highest - lowest) /2);
 
-                    //generate gaussian probability of generating a number
-                    let nextAtom = ceil(randomGaussian(av, floor((highest-lowest)/av)));
-                    if (nextAtom > 0){
-                        this.next = new Atom(nextAtom);
-                    } else {
-                        this.next = new Atom(1);
-                    }
+                //add one to the mid point to bias to larger numbers
+                //maybe the 'ceil'ing is enough to bias upwards and i don't need this
+                //av++;
+
+                //generate gaussian probability of generating a number
+                let nextAtom = ceil(randomGaussian(av, floor((highest-lowest)/av)));
+                if (nextAtom > 0){
+                    this.next = new Atom(nextAtom);
+                } else {
+                    this.next = new Atom(1);
                 }
             }
+        
         } else if (this.next.number == "m") {
             let selectedIndex = this.getIndexFromMousePositionAtom();
             this.minusAtom(selectedIndex);

@@ -47,7 +47,7 @@ function draw(){
 }
 
 function keyPressed(){
-    currentGame.display();
+    //currentGame.display();    
 }
 
 function mousePressed(){
