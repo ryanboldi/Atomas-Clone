@@ -1,7 +1,9 @@
 class Game{
     static constants = {
         plusProb : 0.3,
-        minusProb : 0,
+        minusProb : 0.1,
+        darkPlusProb: 0.02,
+        whiteMinusProb: 0.02,
         generatorSd: 0.1,
     }
 
@@ -11,6 +13,7 @@ class Game{
             this.board.addAtom(new Atom(floor(random(1,5))));
         }
         this.next = new Atom(floor(random(1,5)));
+        this.currentAtomWasMinus = false;
     }
 
     display(){
@@ -49,38 +52,49 @@ class Game{
 
     place(){
         if(this.next.number !== "m"){
-            this.placeAt(this.getIndexFromMousePosition());
+            if (this.currentAtomWasMinus){
+                //check if the user clicked in the center-ish area,
+                if(Math.abs(mouseX - 400) < Atom.atomRad){
+                    if(Math.abs(mouseY - 400) < Atom.atomRad){
+                        this.next = new Atom("p");
+                        this.currentAtomWasMinus = false;
+                    }
+                }
+                //then convert the thing to plus
+            } else {
+                this.placeAt(this.getIndexFromMousePosition());
 
-            let rand = random();
-            if(rand < Game.constants.plusProb){
-                this.next = new Atom("p");
-            } else if (rand < (Game.constants.plusProb + Game.constants.minusProb)){
-                this.next = new Atom("m");
-            } //others
-            else {
-                //random element
-                //get the highest element on the board's value,
-                let highest = this.board.getHighest();
+                let rand = random();
+                if(rand < Game.constants.plusProb){
+                    this.next = new Atom("p");
+                } else if (rand < (Game.constants.plusProb + Game.constants.minusProb)){
+                    this.next = new Atom("m");
+                } //others
+                else {
+                    //random element
+                    //get the highest element on the board's value,
+                    let highest = this.board.getHighest();
 
-                //get the lowest element on the board's value,
-                let lowest = this.board.getLowest();
+                    //get the lowest element on the board's value,
+                    let lowest = this.board.getLowest();
 
-                //find the mid point
-                let av = lowest + ceil((highest - lowest) /2);
+                    //find the mid point
+                    let av = lowest + ceil((highest - lowest) /2);
 
-                //add one to the mid point to bias to larger numbers
-                //maybe the 'ceil'ing is enough to bias upwards and i don't need this
-                //av++;
+                    //add one to the mid point to bias to larger numbers
+                    //maybe the 'ceil'ing is enough to bias upwards and i don't need this
+                    //av++;
 
-                //generate gaussian probability of generating a number
-                let nextAtom = ceil(randomGaussian(av, floor((highest-lowest)/av)));
-                if (nextAtom > 0){
-                    this.next = new Atom(nextAtom);
-                } else {
-                    this.next = new Atom(1);
+                    //generate gaussian probability of generating a number
+                    let nextAtom = ceil(randomGaussian(av, floor((highest-lowest)/av)));
+                    if (nextAtom > 0){
+                        this.next = new Atom(nextAtom);
+                    } else {
+                        this.next = new Atom(1);
+                    }
                 }
             }
-        } else {
+        } else if (this.next.number == "m") {
             let selectedIndex = this.getIndexFromMousePositionAtom();
             console.log(selectedIndex);
             this.minusAtom(selectedIndex);
@@ -98,6 +112,7 @@ class Game{
     minusAtom(pos){
         this.next = this.board.atoms[pos]; 
         this.board.atoms.splice(pos, 1);
+        this.currentAtomWasMinus = true;
         this.display();
     }
 
