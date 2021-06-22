@@ -9,6 +9,8 @@ class Game{
 
     constructor(){
         this.board = new AtomChain();
+        this.board.addAtom(new Atom("merge"));
+        this.board.addAtom(new Atom("copy"));
         for (let i = 0; i < floor(random(1,6)); i++){
             this.board.addAtom(new Atom(floor(random(1,5))));
         }
@@ -119,14 +121,48 @@ class Game{
     //checks board and performs any updates
     checkBoard(){
         //NOTE: When a combination happens, i add the new items index as a plus to continue the pattern (TODO: catch this and change the score of the atoms);
-        //check that there is a plus in this board
+        //check that there is a plus or dark plus in this board
         let pluses = this.board.contains("p");
+        let dark = this.board.contains("merge");
+
+        if (dark.length > 0){
+            //must be a dark plus.
+            let left = this.board.atomAt(dark[0] - 1);
+            if (typeof left == "string" || left instanceof String){
+                left = floor(random(1,6));
+            }
+            let right = this.board.atomAt(dark[0] + 1);
+            if (typeof right == "string" || right instanceof String){
+                right = floor(random(1,6));
+            }
+
+            let addNum = floor(Math.abs(right - left) /2) + (max(left, right)); 
+
+            //add the three indexes that need to be removed to an array
+            let toRemove = [this.board.indexCleaner(dark[0] - 1),
+            this.board.indexCleaner(dark[0]),
+            this.board.indexCleaner(dark[0]) + 1];
+
+            //sort this array in decending order so the biggest index is first
+            let sortedToRemove = reverse(sort(toRemove));
+            
+            //remove the elements in this order to not destroy anything
+            for (let i = 0; i < sortedToRemove.length - 1; i++){
+                this.board.removeAt(sortedToRemove[i]);
+            }
+
+            //add the next element at the location of the last removal.
+            //console.log(addNum);
+            this.board.atoms.splice(sortedToRemove[2], 1, new Atom(addNum));
+
+            pluses.splice(0, 0, sortedToRemove[2]); // add new atom created as a fake plus
+            this.board.display(); 
+        }
+
         while (pluses.length !== 0){
             for (let i = 0; i < pluses.length; i++){
                 pluses[i] = this.board.indexCleaner(pluses[i]);
             }
-            //console.log(pluses);
-            //console.table(this.board.atoms);
             
             //check for two atoms on either side of all pluses
             if (this.board.checkEitherSide(pluses[pluses.length - 1])){
@@ -168,10 +204,9 @@ class Game{
 
                 //show the board intermediate
                 this.display();
-            } 
-            
+            }             
             pluses.pop();
             //delete the plus already parsed
-        }
+        } 
     }
 }

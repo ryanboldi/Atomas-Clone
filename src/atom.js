@@ -1,5 +1,7 @@
 class Atom {
     static numberNameBinds = {
+        "merge": "+",
+        "copy": "#",
         'm': "-",
         'p': "+",
         1: "H",
@@ -37,6 +39,8 @@ class Atom {
     static atomAlpha = 255;
 
     static numberColorBinds = {
+        "merge": [0,0,0, Atom.atomAlpha],
+        "copy": [255,255,255, Atom.atomAlpha],
         "m": [0, 0, 255, Atom.atomAlpha],
         "p": [255, 0, 0, Atom.atomAlpha],
         1: [106, 181, 255, Atom.atomAlpha],
